@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Managements</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto" id="cardetails">
+                <div class="card card-signin my-5" id="login">
+                    <div class="card-body">
+                        <label>User Name</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control username" name="username" id="username"
+                                placeholder="Enter Username" autocomplete="off" /></div>
+                        <label>Password</label>
+                        <div class="form-group">
+                            <input type="password" class="form-control pass" name="Password" id="Password"
+                                placeholder="Enter Password" autocomplete="off" />
+                        </div>
+                        <button type="login" onclick="onclick()" class="btn btn-primary" id="login_b">LOGIN</button>
+                        <button type="Signup" class="btn btn-primary" id="signup_b">SIGNUP</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCfDQaBk2vNbqVeUYPFP7E59aYDQjFMIQc",
+            authDomain: "menu-management-25c7b.firebaseapp.com",
+            databaseURL: "https://menu-management-25c7b.firebaseio.com",
+            projectId: "menu-management-25c7b",
+            storageBucket: "",
+            messagingSenderId: "702871204244",
+            appId: "1:702871204244:web:9e85b36157197bf3"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+</body>
+
+</html>
