@@ -12,9 +12,12 @@ db.once('open', function(callback){
 var app=express() ;
 app.use(bodyParser.json()); 
 app.use(express.static('public')); 
+app.set('views', './');
+app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({ 
 	extended: true
 })); 
+app.set('view engine', 'html');
 app.post('/uploaded',function(req,res){
 
 var p=req.body;
