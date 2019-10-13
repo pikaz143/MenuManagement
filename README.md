@@ -5,7 +5,7 @@ This is a simple menu uploader which takes all the details of a hotel and the me
 To run the files locally on your system,follow the below steps:
 
 1. First,install nodejs and npm.
-[Link:] (https://nodejs.org/en/)
+ (https://nodejs.org/en/)
 
 2. check if node and npm is installed correctly using command prompt.
 ```
