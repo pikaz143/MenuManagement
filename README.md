@@ -17,7 +17,7 @@ npm -v
  ```
     npm install -g express 
     npm install -g mongoose
-    npm install -g ejs 
+    npm install -g body-parser 
  ```
  4.Now,run the required file using node.
  ```
