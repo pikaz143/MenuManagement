@@ -1,59 +1,76 @@
-var express=require("express"); 
-var bodyParser=require("body-parser"); 
+var express = require('express');
+var bodyParser = require('body-parser');
 
-const mongoose = require('mongoose'); 
-mongoose.connect('mongodb://localhost:27017/upload_data', {useNewUrlParser: true}); 
-var db=mongoose.connection; 
-db.on('error', console.log.bind(console, "connection error")); 
-db.once('open', function(callback){ 
-	console.log("connection succeeded"); 
-}) 
+const path = require('path');
+// import Resto model
+const Resto = require('./models/Resto');
+const getMenus = require('./helper/getMenus');
 
-var app=express() ;
-app.use(bodyParser.json()); 
-app.use(express.static('public')); 
-app.use(bodyParser.urlencoded({ 
-	extended: true
-})); 
-app.post('/uploaded',function(req,res){
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/upload_data', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+// need this to support unique in email
+// mongoose.set('useCreateIndex', true);
 
-var p=req.body;
-var name=p.resto_name;
-var address=p.address;
-var phone=p.resto_phone;
-var email=p.resto_email;
-var type1=p.menu_type;
-var type2=p.menu_type;
-var type3=p.menu_type;
-var item=p.item;
-var price=p.item.price;
-var data={
-    "name":name,
-    "address":address,
-    "phone":phone,
-    "email":email,
-    "type1":type1 [{
-        "item":item,
-        "price":price
-    }], 
-    "type2":type2 [{
-        "item":item,
-        "price":price
-    }], 
-    "type3":type3 [{
-        "item":item,
-        "price":price
-    }]
-}
-db.collection('user_data').insertOne(data,function(err, collection){ 
-    if (err) throw err; 
-    console.log("Record inserted Successfully"); 			
-}); 
-return res.redirect('sign_up_success.html'); 
-})
+var db = mongoose.connection;
+db.on('error', console.log.bind(console, 'connection error'));
+db.once('open', function(callback) {
+  console.log('connection succeeded');
+});
 
-app.get('/',function(req,res){
-res.render('form_menu.html');
-}).listen(4000);    
+var app = express();
+app.use(bodyParser.json());
+app.use(express.static('public'));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
-console.log("server listening at port 4000.");
+// render the form -> temporary
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/form_menu.html'));
+});
+
+app.post('/uploaded', function(req, res) {
+  var p = req.body;
+
+  let menus;
+
+  // if user send multiple menus
+  if (Array.isArray(p.menu_type)) {
+    menus = getMenus(p.menu_type, p.item, p.price);
+  } else {
+    let type = p.menu_type.toLowerCase();
+    menus = { [type]: { item: p.item, price: p.price } };
+  }
+
+  // create an instance of Resto
+  var resto = new Resto({
+    name: p.resto_name,
+    address: p.address,
+    phone: p.resto_phone,
+    email: p.resto_email,
+    ...menus
+  });
+
+  //save to database
+  resto.save(function(err, data) {
+    if (err) return res.send({ error: err.message });
+
+    // console.log(data);
+    res.send(data);
+  });
+
+  //   return res.redirect('sign_up_success.html');
+});
+
+app
+  .get('/', function(req, res) {
+    res.render('form_menu.html');
+  })
+  .listen(4000);
+
+console.log('server listening at port 4000.');
